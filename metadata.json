@@ -1,0 +1,5 @@
+{
+  "name": "Mayabus Dashboard",
+  "description": "A reporting dashboard for Anáhuac Mayab's Mayabus service to analyze and visualize data from Tickets, Services, and Validations files for route optimization and user behavior analysis.",
+  "requestFramePermissions": []
+}

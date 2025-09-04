@@ -85,7 +85,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, error }) => {
             <section>
                 <h2 className="text-2xl font-bold text-white mb-4">Visualizaciones</h2>
                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                    <div className="bg-anahuac-gray p-6 rounded-lg shadow-lg">
+                    <div className="bg-anahuac-gray p-6 rounded-lg shadow-lg col-span-1 xl:col-span-2">
                         <h3 className="text-xl font-semibold mb-4">Rendimiento de Rutas</h3>
                        <RoutePerformanceChart data={combinedData} />
                     </div>
@@ -93,7 +93,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, error }) => {
                         <h3 className="text-xl font-semibold mb-4">Top 10 Usuarios (por Viajes)</h3>
                        <TopUsersTable data={combinedData} />
                     </div>
-                     <div className="bg-anahuac-gray p-6 rounded-lg shadow-lg col-span-1 xl:col-span-2">
+                     <div className="bg-anahuac-gray p-6 rounded-lg shadow-lg">
                         <h3 className="text-xl font-semibold mb-4">Calor de Uso por Día del Mes</h3>
                        <UsageHeatmapChart data={combinedData} />
                     </div>

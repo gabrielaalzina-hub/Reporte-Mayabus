@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { ProcessedData } from '../types';
 import RoutePerformanceChart from './charts/RoutePerformanceChart';
 import BackupTables from './BackupTables';
 import TopUsersTable from './charts/TopUsersTable';
 import UsageHeatmapChart from './charts/UsageHeatmapChart';
+import DailyRoutePerformanceChart from './charts/DailyRoutePerformanceChart';
 
 interface DashboardProps {
     data: ProcessedData | null;
@@ -42,6 +43,13 @@ const Dashboard: React.FC<DashboardProps> = ({ data, error }) => {
     }
 
     const { kpis, combinedData } = data;
+
+    const availableRoutes = useMemo(() => {
+        if (!combinedData) return [];
+        return [...new Set(combinedData.map(d => d['Descripcion ruta']))].sort();
+    }, [combinedData]);
+
+    const [selectedRoute, setSelectedRoute] = useState<string>('all');
 
     const mainKpis = [
         { title: 'Tickets Vendidos', value: kpis?.totalTickets.toLocaleString() },
@@ -88,6 +96,24 @@ const Dashboard: React.FC<DashboardProps> = ({ data, error }) => {
                      <div className="bg-anahuac-gray p-6 rounded-lg shadow-lg col-span-1 xl:col-span-2">
                         <h3 className="text-xl font-semibold mb-4">Calor de Uso por Día del Mes</h3>
                        <UsageHeatmapChart data={combinedData} />
+                    </div>
+                    <div className="bg-anahuac-gray p-6 rounded-lg shadow-lg col-span-1 xl:col-span-2">
+                        <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-4">
+                            <h3 className="text-xl font-semibold">Rendimiento de Ruta por Día</h3>
+                            <div className="w-full sm:w-auto">
+                                <label htmlFor="route-day-filter" className="sr-only">Seleccionar Ruta</label>
+                                <select 
+                                    id="route-day-filter"
+                                    value={selectedRoute} 
+                                    onChange={e => setSelectedRoute(e.target.value)} 
+                                    className="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-anahuac-orange"
+                                >
+                                    <option value="all">Todas las Rutas</option>
+                                    {availableRoutes.map(route => <option key={route} value={route}>{route}</option>)}
+                                </select>
+                            </div>
+                        </div>
+                       <DailyRoutePerformanceChart data={combinedData} selectedRoute={selectedRoute} />
                     </div>
                  </div>
             </section>
